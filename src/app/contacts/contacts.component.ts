@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Contact } from '../contact';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Contact } from '../contact';
 import { ContactService } from '../contact.service';
 
 @Component({
@@ -12,11 +12,11 @@ export class ContactsComponent implements OnInit {
   contacts: Contact[] = [];
   formGroupContact: FormGroup;
   isEditing: boolean = false;
-  submitted: boolean = false;
+  showModal: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
-    private service: ContactService
+    private contactService: ContactService
   ) {
     this.formGroupContact = this.formBuilder.group({
       id: [''],
@@ -27,7 +27,7 @@ export class ContactsComponent implements OnInit {
       aniversario: ['', Validators.required],
       genero: ['', Validators.required],
       categoria: ['', Validators.required],
-      favorito: [false]
+      favorito: [false],
     });
   }
 
@@ -36,37 +36,38 @@ export class ContactsComponent implements OnInit {
   }
 
   loadContacts() {
-    this.service.getContacts().subscribe({
+    this.contactService.getContacts().subscribe({
       next: (data) => (this.contacts = data),
     });
   }
 
   save() {
-    this.submitted = true;
     if (this.formGroupContact.valid) {
       if (this.isEditing) {
-        this.service.updateContact(this.formGroupContact.value.id, this.formGroupContact.value).subscribe({
-          next: () => {
-            this.loadContacts();
-            this.isEditing = false;
-            this.submitted = false;
-            this.formGroupContact.reset();
-          },
-        });
+        this.contactService
+          .updateContact(this.formGroupContact.value.id, this.formGroupContact.value)
+          .subscribe({
+            next: () => {
+              this.loadContacts();
+              this.isEditing = false;
+              this.formGroupContact.reset();
+              this.closeModal();
+            },
+          });
       } else {
-        this.service.createContact(this.formGroupContact.value).subscribe({
+        this.contactService.createContact(this.formGroupContact.value).subscribe({
           next: (data) => {
             this.contacts.push(data);
-            this.submitted = false;
             this.formGroupContact.reset();
-          }
+            this.closeModal();
+          },
         });
       }
     }
   }
 
   delete(contact: Contact) {
-    this.service.deleteContact(contact.id!).subscribe({
+    this.contactService.deleteContact(contact.id!).subscribe({
       next: () => this.loadContacts(),
     });
   }
@@ -74,37 +75,23 @@ export class ContactsComponent implements OnInit {
   edit(contact: Contact) {
     this.formGroupContact.setValue(contact);
     this.isEditing = true;
+    this.openModal();
   }
 
-  get nome() {
-    return this.formGroupContact.get('nome');
+  openModal() {
+    this.showModal = true;
   }
 
-  get email() {
-    return this.formGroupContact.get('email');
+  closeModal() {
+    this.showModal = false;
+    this.isEditing = false;
+    this.formGroupContact.reset();
   }
 
-  get telefone() {
-    return this.formGroupContact.get('telefone');
-  }
-
-  get endereco() {
-    return this.formGroupContact.get('endereco');
-  }
-
-  get aniversario() {
-    return this.formGroupContact.get('aniversario');
-  }
-
-  get genero() {
-    return this.formGroupContact.get('genero');
-  }
-
-  get categoria() {
-    return this.formGroupContact.get('categoria');
-  }
-
-  get favorito() {
-    return this.formGroupContact.get('favorito');
+  toggleFavorite(contact: Contact) {
+    contact.favorito = !contact.favorito;
+    this.contactService.updateContact(contact.id!, contact).subscribe({
+      next: () => this.loadContacts(),
+    });
   }
 }
