@@ -1,1 +1,72 @@
-<p>contacts works!</p>
+<div class="container">
+    <h1>Contact List</h1>
+    
+    <form [formGroup]="formGroupContact" (ngSubmit)="save()">
+      <div class="form-group">
+        <label for="nome">Name</label>
+        <input type="text" id="nome" formControlName="nome" class="form-control">
+      </div>
+  
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" formControlName="email" class="form-control">
+      </div>
+  
+      <div class="form-group">
+        <label for="telefone">Phone</label>
+        <input type="text" id="telefone" formControlName="telefone" class="form-control">
+      </div>
+  
+      <div class="form-group">
+        <label for="endereco">Address</label>
+        <input type="text" id="endereco" formControlName="endereco" class="form-control">
+      </div>
+  
+      <div class="form-group">
+        <label for="aniversario">Birthday</label>
+        <input type="date" id="aniversario" formControlName="aniversario" class="form-control">
+      </div>
+  
+      <div class="form-group">
+        <label for="genero">Gender</label>
+        <input type="text" id="genero" formControlName="genero" class="form-control">
+      </div>
+  
+      <div class="form-group">
+        <label for="categoria">Category</label>
+        <input type="text" id="categoria" formControlName="categoria" class="form-control">
+      </div>
+  
+      <div class="form-check">
+        <input type="checkbox" id="favorito" formControlName="favorito" class="form-check-input">
+        <label for="favorito" class="form-check-label">Favorite</label>
+      </div>
+  
+      <button type="submit" class="btn btn-primary mt-3">
+        {{ isEditing ? 'Update' : 'Save' }}
+      </button>
+    </form>
+  
+    <table class="table table-striped mt-4">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let contact of contacts">
+          <td>{{ contact.nome }}</td>
+          <td>{{ contact.email }}</td>
+          <td>{{ contact.telefone }}</td>
+          <td>
+            <button class="btn btn-warning" (click)="edit(contact)">Edit</button>
+            <button class="btn btn-danger" (click)="delete(contact)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
