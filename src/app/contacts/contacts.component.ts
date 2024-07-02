@@ -13,6 +13,7 @@ export class ContactsComponent implements OnInit {
   formGroupContact: FormGroup;
   isEditing: boolean = false;
   showModal: boolean = false;
+  submitted: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -23,10 +24,10 @@ export class ContactsComponent implements OnInit {
       nome: ['', [Validators.minLength(3), Validators.required]],
       email: ['', [Validators.email, Validators.required]],
       telefone: ['', Validators.required],
-      endereco: ['', Validators.required],
-      aniversario: ['', Validators.required],
-      genero: ['', Validators.required],
-      categoria: ['', Validators.required],
+      endereco: ['',],
+      aniversario: ['',],
+      genero: ['',],
+      categoria: ['',],
       favorito: [false],
     });
   }
@@ -42,6 +43,7 @@ export class ContactsComponent implements OnInit {
   }
 
   save() {
+    this.submitted = true;
     if (this.formGroupContact.valid) {
       if (this.isEditing) {
         this.contactService
@@ -52,6 +54,7 @@ export class ContactsComponent implements OnInit {
               this.isEditing = false;
               this.formGroupContact.reset();
               this.closeModal();
+              this.submitted = false;
             },
           });
       } else {
@@ -60,6 +63,7 @@ export class ContactsComponent implements OnInit {
             this.contacts.push(data);
             this.formGroupContact.reset();
             this.closeModal();
+            this.submitted = false;
           },
         });
       }
@@ -86,6 +90,7 @@ export class ContactsComponent implements OnInit {
     this.showModal = false;
     this.isEditing = false;
     this.formGroupContact.reset();
+    this.submitted = false;
   }
 
   toggleFavorite(contact: Contact) {
@@ -93,5 +98,33 @@ export class ContactsComponent implements OnInit {
     this.contactService.updateContact(contact.id!, contact).subscribe({
       next: () => this.loadContacts(),
     });
+  }
+
+  get nome(): any {
+    return this.formGroupContact.get('nome');
+  }
+
+  get email(): any {
+    return this.formGroupContact.get('email');
+  }
+
+  get telefone(): any {
+    return this.formGroupContact.get('telefone');
+  }
+
+  get endereco(): any {
+    return this.formGroupContact.get('endereco');
+  }
+
+  get aniversario(): any {
+    return this.formGroupContact.get('aniversario');
+  }
+
+  get genero(): any {
+    return this.formGroupContact.get('genero');
+  }
+
+  get categoria(): any {
+    return this.formGroupContact.get('categoria');
   }
 }

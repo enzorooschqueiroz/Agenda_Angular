@@ -53,24 +53,42 @@
             <div class="modal-body">
               <form [formGroup]="formGroupContact" (ngSubmit)="save()">
                 <div class="form-group">
-                  <label for="nome">Nome</label>
-                  <input type="text" id="nome" formControlName="nome" class="form-control">
+                    <label for="nome" class="form-label">Nome</label>
+                    <input type="text" class="form-control" id="nome" formControlName="nome" />
+                    <small *ngIf="nome.touched && nome.hasError('required')" class="text-danger">
+                      *O nome é obrigatório.
+                    </small>
                 </div>
                 <div class="form-group">
                   <label for="email">Email</label>
                   <input type="email" id="email" formControlName="email" class="form-control">
+                  <small *ngIf="email.touched && email.hasError('email')" class="text-danger">
+                    *Insira um email válido.
+                  </small>
+                  <small *ngIf="email.touched && email.hasError('required')" class="text-danger">
+                    *O email é obrigatório.
+                  </small>
                 </div>
                 <div class="form-group">
                   <label for="telefone">Telefone</label>
                   <input type="text" id="telefone" formControlName="telefone" class="form-control">
+                  <small *ngIf="telefone.touched && telefone.hasError('required')" class="text-danger">
+                    *O telefone é obrigatório.
+                  </small>
                 </div>
                 <div class="form-group">
                   <label for="endereco">Endereço</label>
                   <input type="text" id="endereco" formControlName="endereco" class="form-control">
+                  <small *ngIf="endereco.touched && endereco.hasError('required')" class="text-danger">
+                    *O endereço é obrigatório.
+                  </small>
                 </div>
                 <div class="form-group">
                   <label for="aniversario">Aniversário</label>
                   <input type="date" id="aniversario" formControlName="aniversario" class="form-control">
+                  <small *ngIf="aniversario.touched && aniversario.hasError('required')" class="text-danger">
+                    *A data de aniversário é obrigatória.
+                  </small>
                 </div>
                 <div class="form-group">
                   <label for="genero">Gênero</label>
@@ -89,7 +107,6 @@
                     <option value="Amigos">Amigos</option>
                     <option value="Família">Família</option>
                     <option value="Trabalho">Trabalho</option>
-                    <option value="Afins">Afins</option>
                     <option value="Outro">Outro</option>
                   </select>
                 </div>
@@ -97,7 +114,7 @@
                   <input type="checkbox" id="favorito" formControlName="favorito" class="form-check-input">
                   <label for="favorito" class="form-check-label">Favorito</label>
                 </div>
-                <button type="submit" class="btn btn-primary mt-3">
+                <button type="submit" class="btn btn-primary mt-3" [disabled]="!formGroupContact.valid">
                   {{ isEditing ? 'Atualizar' : 'Salvar' }}
                 </button>
               </form>
@@ -110,16 +127,20 @@
 
   
   <style>
+    .modal-content{
+        background-color: #F1F1F1;
+    }
     .card{
         background-color: #F1F1F1;
     }
+    
     .fixed-button {
       position: fixed;
       bottom: 20px;
       right: 20px;
     }
     .modal.show {
-      display: block;
+      display: block; 
     }
     .favorite-icon {
       position: absolute;
