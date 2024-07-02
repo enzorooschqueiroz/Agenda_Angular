@@ -27,19 +27,6 @@ O projeto Angular de Gerenciamento de Contatos oferece uma interface intuitiva p
    npm install
    ```
 
-## Configuração da API
-
-1. Configure a URL da API Spring Boot:
-   
-   Abra o arquivo de ambiente (`src/environments/environment.ts`) e configure a `apiUrl` para apontar para a URL da sua API Spring Boot:
-
-   ```typescript
-   export const environment = {
-       production: false,
-       apiUrl: 'http://localhost:8080' // URL da sua API Spring Boot
-   };
-   ```
-
 ## Execução do Projeto Angular
 
 1. **Inicie o servidor de desenvolvimento:**
