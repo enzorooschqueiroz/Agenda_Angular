@@ -1,27 +1,62 @@
-# Agenda
+Aqui está o README.md atualizado com um resumo sobre o projeto Angular e sua relação com a API em Spring Boot:
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.2.1.
+# Projeto Angular de Gerenciamento de Contatos
 
-## Development server
+Este projeto Angular consome uma API desenvolvida em Spring Boot para gerenciamento de contatos. Ele permite listar, adicionar, editar e excluir contatos através de uma interface de usuário amigável.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Resumo
 
-## Code scaffolding
+O projeto Angular de Gerenciamento de Contatos oferece uma interface intuitiva para interagir com uma API RESTful em Spring Boot. Ele permite visualizar todos os contatos, filtrar por favoritos, adicionar novos contatos, editar informações existentes e remover contatos da lista. O projeto também suporta marcação de contatos como favoritos, proporcionando uma experiência completa de gerenciamento de contatos.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Pré-requisitos
 
-## Build
+- Node.js e npm instalados
+- Angular CLI
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Instalação
 
-## Running unit tests
+1. **Clone o repositório:**
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+   ```
+   git clone https://github.com/enzorooschqueiroz/Agenda_Angular.git
+   ```
 
-## Running end-to-end tests
+2. **Instale as dependências:**
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+   ```
+   npm install
+   ```
 
-## Further help
+## Configuração da API
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+1. Configure a URL da API Spring Boot:
+   
+   Abra o arquivo de ambiente (`src/environments/environment.ts`) e configure a `apiUrl` para apontar para a URL da sua API Spring Boot:
+
+   ```typescript
+   export const environment = {
+       production: false,
+       apiUrl: 'http://localhost:8080' // URL da sua API Spring Boot
+   };
+   ```
+
+## Execução do Projeto Angular
+
+1. **Inicie o servidor de desenvolvimento:**
+
+   ```
+   ng s -o
+   ```
+
+2. Acesse o aplicativo Angular em: `http://localhost:4200`
+
+## Funcionalidades
+
+- Listar todos os contatos e alternar entre todos e favoritos
+- Adicionar, editar e excluir contatos
+- Marcar contatos como favoritos
+
+## Estilização
+
+- O projeto utiliza estilização com base no esquema de cores definido no CSS.
+  
