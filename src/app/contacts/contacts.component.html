@@ -1,4 +1,4 @@
-<div class="container">
+<body><div class="container">
     <h1>Lista de Contatos</h1>
   
     <div class="row">
@@ -28,8 +28,10 @@
             <p class="card-text"><strong>Aniversário:</strong> {{ contact.aniversario }}</p>
             <p class="card-text"><strong>Gênero:</strong> {{ contact.genero }}</p>
             <p class="card-text"><strong>Categoria:</strong> {{ contact.categoria }}</p>
-            <button class="btn btn-warning" (click)="edit(contact)">Editar</button>
-            <button class="btn btn-danger" (click)="delete(contact)">Excluir</button>
+            <div class="d-flex justify-content-end mt-3">
+                <button class="btn btn-warning mr-2" (click)="edit(contact)">Editar</button>
+                <button class="btn btn-danger" (click)="delete(contact)">Excluir</button>
+              </div>
           </div>
         </div>
       </div>
@@ -40,39 +42,39 @@
   
     <!-- Modal para adicionar/editar contato -->
     <div class="modal" tabindex="-1" role="dialog" [ngClass]="{'show': showModal}" [ngStyle]="{'display': showModal ? 'block' : 'none'}">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">{{ isEditing ? 'Editar Contato' : 'Adicionar Contato' }}</h5>
-            <button type="button" class="close" (click)="closeModal()">
-              <span>&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <form [formGroup]="formGroupContact" (ngSubmit)="save()">
-              <div class="form-group">
-                <label for="nome">Nome</label>
-                <input type="text" id="nome" formControlName="nome" class="form-control">
-              </div>
-              <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" id="email" formControlName="email" class="form-control">
-              </div>
-              <div class="form-group">
-                <label for="telefone">Telefone</label>
-                <input type="text" id="telefone" formControlName="telefone" class="form-control">
-              </div>
-              <div class="form-group">
-                <label for="endereco">Endereço</label>
-                <input type="text" id="endereco" formControlName="endereco" class="form-control">
-              </div>
-              <div class="form-group">
-                <label for="aniversario">Aniversário</label>
-                <input type="date" id="aniversario" formControlName="aniversario" class="form-control">
-              </div>
-              <div class="form-group">
-                <label for="genero">Gênero</label>
-                <div class="form-check">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header d-flex justify-content-between">
+              <h5 class="modal-title">{{ isEditing ? 'Editar Contato' : 'Adicionar Contato' }}</h5>
+              <button type="button" class="close" (click)="closeModal()">
+                <span>&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form [formGroup]="formGroupContact" (ngSubmit)="save()">
+                <div class="form-group">
+                  <label for="nome">Nome</label>
+                  <input type="text" id="nome" formControlName="nome" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label for="email">Email</label>
+                  <input type="email" id="email" formControlName="email" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label for="telefone">Telefone</label>
+                  <input type="text" id="telefone" formControlName="telefone" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label for="endereco">Endereço</label>
+                  <input type="text" id="endereco" formControlName="endereco" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label for="aniversario">Aniversário</label>
+                  <input type="date" id="aniversario" formControlName="aniversario" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label for="genero">Gênero</label>
+                  <div class="form-check">
                     <input class="form-check-input" type="radio" id="generoMasculino" formControlName="genero" value="Masculino">
                     <label class="form-check-label" for="generoMasculino">Masculino</label>
                   </div>
@@ -80,26 +82,37 @@
                     <input class="form-check-input" type="radio" id="generoFeminino" formControlName="genero" value="Feminino">
                     <label class="form-check-label" for="generoFeminino">Feminino</label>
                   </div>
-              </div>
-              <div class="form-group">
-                <label for="categoria">Categoria</label>
-                <input type="text" id="categoria" formControlName="categoria" class="form-control">
-              </div>
-              <div class="form-check">
-                <input type="checkbox" id="favorito" formControlName="favorito" class="form-check-input">
-                <label for="favorito" class="form-check-label">Favorito</label>
-              </div>
-              <button type="submit" class="btn btn-primary mt-3">
-                {{ isEditing ? 'Atualizar' : 'Salvar' }}
-              </button>
-            </form>
+                </div>
+                <div class="form-group">
+                  <label for="categoria">Categoria</label>
+                  <select id="categoria" formControlName="categoria" class="form-control">
+                    <option value="Amigos">Amigos</option>
+                    <option value="Família">Família</option>
+                    <option value="Trabalho">Trabalho</option>
+                    <option value="Afins">Afins</option>
+                    <option value="Outro">Outro</option>
+                  </select>
+                </div>
+                <div class="form-check">
+                  <input type="checkbox" id="favorito" formControlName="favorito" class="form-check-input">
+                  <label for="favorito" class="form-check-label">Favorito</label>
+                </div>
+                <button type="submit" class="btn btn-primary mt-3">
+                  {{ isEditing ? 'Atualizar' : 'Salvar' }}
+                </button>
+              </form>
+            </div>
           </div>
         </div>
       </div>
-    </div>
   </div>
+</body>
+
   
   <style>
+    .card{
+        background-color: #F1F1F1;
+    }
     .fixed-button {
       position: fixed;
       bottom: 20px;
@@ -118,7 +131,15 @@
       transform: scale(1.1);
     }
     .container .favorito {
-      fill: #ffeb49; /* Cor quando favoritado */
+      fill: #FDDE55; /* Cor quando favoritado */
     }
+    
+    body {
+      background-color: #F6F5F2;
+    }
+    .submit{
+        background-color: #FED8B1;
+    }
+
   </style>
   
