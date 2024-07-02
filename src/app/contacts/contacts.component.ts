@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 import { Contact } from '../contact';
 import { ContactService } from '../contact.service';
 
@@ -10,6 +11,7 @@ import { ContactService } from '../contact.service';
 })
 export class ContactsComponent implements OnInit {
   contacts: Contact[] = [];
+  showingFavorites = false;
   formGroupContact: FormGroup;
   isEditing: boolean = false;
   showModal: boolean = false;
@@ -17,6 +19,7 @@ export class ContactsComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
+    private http: HttpClient,
     private contactService: ContactService
   ) {
     this.formGroupContact = this.formBuilder.group({
@@ -24,10 +27,10 @@ export class ContactsComponent implements OnInit {
       nome: ['', [Validators.minLength(3), Validators.required]],
       email: ['', [Validators.email, Validators.required]],
       telefone: ['', Validators.required],
-      endereco: ['',],
-      aniversario: ['',],
-      genero: ['',],
-      categoria: ['',],
+      endereco: [''],
+      aniversario: [''],
+      genero: [''],
+      categoria: [''],
       favorito: [false],
     });
   }
@@ -37,9 +40,24 @@ export class ContactsComponent implements OnInit {
   }
 
   loadContacts() {
-    this.contactService.getContacts().subscribe({
-      next: (data) => (this.contacts = data),
-    });
+    let endpoint = 'http://localhost:8080/contacts';
+    if (this.showingFavorites) {
+      endpoint = 'http://localhost:8080/contacts/favorites';
+    }
+
+    this.http.get<Contact[]>(endpoint).subscribe(
+      data => {
+        this.contacts = data;
+      },
+      error => {
+        console.error('Erro ao carregar contatos', error);
+      }
+    );
+  }
+
+  toggleFavorites() {
+    this.showingFavorites = !this.showingFavorites;
+    this.loadContacts();
   }
 
   save() {
@@ -56,6 +74,10 @@ export class ContactsComponent implements OnInit {
               this.closeModal();
               this.submitted = false;
             },
+            error: error => {
+              console.error('Erro ao atualizar contato', error);
+              this.submitted = false;
+            }
           });
       } else {
         this.contactService.createContact(this.formGroupContact.value).subscribe({
@@ -65,6 +87,10 @@ export class ContactsComponent implements OnInit {
             this.closeModal();
             this.submitted = false;
           },
+          error: error => {
+            console.error('Erro ao criar contato', error);
+            this.submitted = false;
+          }
         });
       }
     }
@@ -73,6 +99,9 @@ export class ContactsComponent implements OnInit {
   delete(contact: Contact) {
     this.contactService.deleteContact(contact.id!).subscribe({
       next: () => this.loadContacts(),
+      error: error => {
+        console.error('Erro ao deletar contato', error);
+      }
     });
   }
 
@@ -97,6 +126,9 @@ export class ContactsComponent implements OnInit {
     contact.favorito = !contact.favorito;
     this.contactService.updateContact(contact.id!, contact).subscribe({
       next: () => this.loadContacts(),
+      error: error => {
+        console.error('Erro ao atualizar favorito', error);
+      }
     });
   }
 

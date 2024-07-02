@@ -2,6 +2,11 @@
     <div class="container">
       <h1>Lista de Contatos</h1>
   
+      <!-- Botão para alternar entre todos os contatos e favoritos -->
+      <button class="btn btn-primary mb-3" (click)="toggleFavorites()">
+        {{ showingFavorites ? 'Mostrar Todos' : 'Mostrar Favoritos' }}
+      </button>
+  
       <div class="row">
         <div class="col-md-4 mb-4" *ngFor="let contact of contacts">
           <div class="card">
